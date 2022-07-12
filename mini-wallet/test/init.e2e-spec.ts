@@ -15,16 +15,18 @@ describe('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
   });
+  afterAll(async () => {
+    app.close();
+  });
 
   it('POST /api/v1/init', async () => {
     const customer_xid = 'ea0212d3-abd6-406f-8c67-868e814a2436';
     const response = await request(app.getHttpServer())
       .post('/api/v1/init')
       .set({ 'content-type': 'multipart/form-data' })
-      .send({
-        customer_xid: customer_xid,
-      })
+      .field('customer_xid', customer_xid)
       .expect(201);
+    console.log('response.body', response.body);
     expect(response.body.status).toBe('success');
     expect(typeof response.body.data?.token).toBe('string');
   });

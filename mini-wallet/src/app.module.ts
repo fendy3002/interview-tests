@@ -5,7 +5,7 @@ import { GlobalModule } from './global.module';
 import { ServicesModule } from './services/services.module';
 
 @Module({
-  imports: [GlobalModule, ServicesModule, ApiV1Module],
+  imports: [GlobalModule, ApiV1Module],
   controllers: [],
   providers: [],
 })
