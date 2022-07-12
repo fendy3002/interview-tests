@@ -87,7 +87,7 @@ export class WalletService {
     await this.validateWalletActive(foundWallet);
 
     const foundDeposit = await this.depositRepository.query(
-      (data) => data.reference_id == referenceId,
+      (data) => data.type == 'DEPOSIT' && data.reference_id == referenceId,
     )?.[0];
     if (foundDeposit) {
       throw new BadRequestException('Deposit with reference id already exists');
@@ -96,6 +96,7 @@ export class WalletService {
     const createUuid = randomUUID();
     const depositToInsert = {
       id: createUuid,
+      type: 'DEPOSIT',
       amount: amount,
       deposited_at: new Date(),
       deposited_by: customerXid,
@@ -122,7 +123,7 @@ export class WalletService {
     }
 
     const foundWithdrawal = await this.withdrawalRepository.query(
-      (data) => data.reference_id == referenceId,
+      (data) => data.type == 'WITHDRAWAL' && data.reference_id == referenceId,
     )?.[0];
     if (foundWithdrawal) {
       throw new BadRequestException(
@@ -133,6 +134,7 @@ export class WalletService {
     const createUuid = randomUUID();
     const withdrawalToInsert = {
       id: createUuid,
+      type: 'WITHDRAWAL',
       amount: amount,
       withdrawn_at: new Date(),
       withdrawn_by: customerXid,
