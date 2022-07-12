@@ -4,13 +4,19 @@ import { STATUS_SUCCESS } from 'src/constants/status';
 import { AuthenticatedRequest } from 'src/interfaces/AuthenticatedRequest';
 import { WalletService } from 'src/services/wallet.service';
 
+import { DisableResponse } from './responses/disable.response';
+import { EnableResponse } from './responses/enable.response';
+import { GetResponse } from './responses/get.response';
+
 @Controller('api/v1/wallet')
 export class WalletController {
   constructor(private walletService: WalletService) {}
 
   @HttpCode(201)
   @Post('')
-  async enabletWallet(@Req() req: AuthenticatedRequest) {
+  async enabletWallet(
+    @Req() req: AuthenticatedRequest,
+  ): Promise<EnableResponse> {
     const enableResult = await this.walletService.enable(
       req.account.customerXid,
     );
@@ -23,7 +29,7 @@ export class WalletController {
   }
 
   @Get('')
-  async getWallet(@Req() req: AuthenticatedRequest) {
+  async getWallet(@Req() req: AuthenticatedRequest): Promise<GetResponse> {
     const result = await this.walletService.findOne(req.account.customerXid);
 
     return {
@@ -41,7 +47,7 @@ export class WalletController {
   withdrawals() {}
 
   @Patch('')
-  async disable(@Req() req: AuthenticatedRequest) {
+  async disable(@Req() req: AuthenticatedRequest): Promise<DisableResponse> {
     const disableResult = await this.walletService.disable(
       req.account.customerXid,
     );
