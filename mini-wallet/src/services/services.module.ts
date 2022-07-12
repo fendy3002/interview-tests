@@ -1,11 +1,13 @@
+import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { Module } from '@nestjs/common';
 
-import { InitService } from './init.service';
+import { AccountService } from './account.service';
 import { WalletService } from './wallet.service';
 
 @Module({
-  imports: [],
+  imports: [InMemoryDBModule.forRoot()],
   controllers: [],
-  providers: [InitService, WalletService],
+  providers: [AccountService, WalletService],
+  exports: [AccountService, WalletService],
 })
 export class ServicesModule {}
