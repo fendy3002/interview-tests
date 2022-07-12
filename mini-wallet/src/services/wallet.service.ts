@@ -1,6 +1,11 @@
 import { InMemoryDBService } from '@nestjs-addons/in-memory-db';
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { randomUUID } from 'crypto';
+
 import {
   WALLET_STATUS_DISABLED,
   WALLET_STATUS_ENABLED,
@@ -29,13 +34,38 @@ export class WalletService {
       // need to throw here
     }
 
+    if (foundWallet.status == WALLET_STATUS_ENABLED) {
+      throw new BadRequestException('Wallet already enabled');
+    }
     foundWallet.status = WALLET_STATUS_ENABLED;
     await this.walletRepository.update(foundWallet);
     return foundWallet;
   }
-  async findOne(customerXid: string) {
-    return await this.walletRepository.query(
+  async disable(customerXid: string) {
+    const foundWallet = await this.walletRepository.query(
       (data) => data.owned_by == customerXid,
     )?.[0];
+    if (!foundWallet) {
+      throw new NotFoundException();
+    }
+
+    if (foundWallet.status == WALLET_STATUS_DISABLED) {
+      throw new BadRequestException('Wallet already disabled');
+    }
+    foundWallet.status = WALLET_STATUS_DISABLED;
+    await this.walletRepository.update(foundWallet);
+    return foundWallet;
+  }
+  async findOne(customerXid: string) {
+    const foundWallet = await this.walletRepository.query(
+      (data) => data.owned_by == customerXid,
+    )?.[0];
+    if (!foundWallet) {
+      throw new NotFoundException();
+    }
+    if (foundWallet.status !== WALLET_STATUS_ENABLED) {
+      throw new BadRequestException('Wallet is disabled');
+    }
+    return foundWallet;
   }
 }

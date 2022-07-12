@@ -1,4 +1,5 @@
 import { Controller, Get, HttpCode, Patch, Post, Req } from '@nestjs/common';
+
 import { STATUS_SUCCESS } from 'src/constants/status';
 import { AuthenticatedRequest } from 'src/interfaces/AuthenticatedRequest';
 import { WalletService } from 'src/services/wallet.service';
@@ -40,5 +41,15 @@ export class WalletController {
   withdrawals() {}
 
   @Patch('')
-  disable() {}
+  async disable(@Req() req: AuthenticatedRequest) {
+    const disableResult = await this.walletService.disable(
+      req.account.customerXid,
+    );
+    return {
+      status: STATUS_SUCCESS,
+      data: {
+        wallet: disableResult,
+      },
+    };
+  }
 }

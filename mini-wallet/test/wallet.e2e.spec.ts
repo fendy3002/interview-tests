@@ -41,11 +41,21 @@ describe('WalletController (e2e)', () => {
       .expect(201);
   });
 
+  it('POST /api/v1/wallet and receive 400 wallet already enabled', async () => {
+    const customer_xid = 'ea0212d3-abd6-406f-8c67-868e814a2436';
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/wallet')
+      .set('authorization', `Token ${initializedAccount.token}`)
+      .expect(400);
+    expect(response.body.message).toBe('Wallet already enabled');
+  });
+
   it('GET /api/v1/wallet and receive 200 success', async () => {
     const customer_xid = 'ea0212d3-abd6-406f-8c67-868e814a2436';
     const response = await request(app.getHttpServer())
       .get('/api/v1/wallet')
       .set('authorization', `Token ${initializedAccount.token}`)
       .expect(200);
+    expect(response.body.data.wallet).toBeDefined();
   });
 });
