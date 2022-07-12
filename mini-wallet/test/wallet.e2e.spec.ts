@@ -5,6 +5,9 @@ import * as request from 'supertest';
 
 import { AppModule } from './../src/app.module';
 
+const WITHDRAWALS_REF_ID = '7ef12a2f-3a7d-41ac-b2ac-f81b7d1358fd';
+const DEPOSITS_REF_ID = '7ef12a2f-3a7d-41ac-b2ac-f81b7d1358fd';
+
 describe('WalletController (e2e)', () => {
   let app: INestApplication;
   let initializedAccount: { token: string } = null;
@@ -58,7 +61,7 @@ describe('WalletController (e2e)', () => {
 
   it('POST /api/v1/wallet/deposits and receive 201 created', async () => {
     const amount = 5000;
-    const reference_id = randomUUID();
+    const reference_id = DEPOSITS_REF_ID;
     const response = await request(app.getHttpServer())
       .post('/api/v1/wallet/deposits')
       .set({ 'content-type': 'multipart/form-data' })
@@ -77,9 +80,21 @@ describe('WalletController (e2e)', () => {
     expect(getResponse.body.data.wallet.balance).toBe(amount);
   });
 
+  it('POST /api/v1/wallet/deposits and receive 400 bad request due to ref id already exists', async () => {
+    const amount = 5000;
+    const reference_id = DEPOSITS_REF_ID;
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/wallet/deposits')
+      .set({ 'content-type': 'multipart/form-data' })
+      .set('authorization', `Token ${initializedAccount.token}`)
+      .field('amount', amount)
+      .field('reference_id', reference_id)
+      .expect(400);
+  });
+
   it('POST /api/v1/wallet/withdrawals and receive 201 created', async () => {
     const amount = 5000;
-    const reference_id = randomUUID();
+    const reference_id = WITHDRAWALS_REF_ID;
     const response = await request(app.getHttpServer())
       .post('/api/v1/wallet/withdrawals')
       .set({ 'content-type': 'multipart/form-data' })
