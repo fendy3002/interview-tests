@@ -6,7 +6,11 @@ import {
   Patch,
   Post,
   Req,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { STATUS_SUCCESS } from 'src/constants/status';
 import { AuthenticatedRequest } from 'src/interfaces/AuthenticatedRequest';
@@ -50,6 +54,9 @@ export class WalletController {
     };
   }
 
+  @UseInterceptors(FileInterceptor('_'))
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @HttpCode(201)
   @Post('/deposits')
   async deposits(
     @Req() req: AuthenticatedRequest,
