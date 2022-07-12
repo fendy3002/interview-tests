@@ -7,14 +7,19 @@ import {
 import { randomUUID } from 'crypto';
 
 import {
+  DEPOSITS_STATUS_SUCCESS,
   WALLET_STATUS_DISABLED,
   WALLET_STATUS_ENABLED,
 } from 'src/constants/status';
+import { DepositEntity } from 'src/entities/deposit.entity';
 import { WalletEntity } from 'src/entities/wallet.entity';
 
 @Injectable()
 export class WalletService {
-  constructor(private walletRepository: InMemoryDBService<WalletEntity>) {}
+  constructor(
+    private walletRepository: InMemoryDBService<WalletEntity>,
+    private depositRepository: InMemoryDBService<DepositEntity>,
+  ) {}
   async create(customerXid: string) {
     await this.walletRepository.create({
       id: randomUUID(),
@@ -26,6 +31,7 @@ export class WalletService {
       status: WALLET_STATUS_DISABLED,
     });
   }
+
   async enable(customerXid: string) {
     const foundWallet = await this.walletRepository.query(
       (data) => data.owned_by == customerXid,
@@ -41,6 +47,7 @@ export class WalletService {
     await this.walletRepository.update(foundWallet);
     return foundWallet;
   }
+
   async disable(customerXid: string) {
     const foundWallet = await this.walletRepository.query(
       (data) => data.owned_by == customerXid,
@@ -56,6 +63,7 @@ export class WalletService {
     await this.walletRepository.update(foundWallet);
     return foundWallet;
   }
+
   async findOne(customerXid: string) {
     const foundWallet = await this.walletRepository.query(
       (data) => data.owned_by == customerXid,
@@ -67,5 +75,29 @@ export class WalletService {
       throw new BadRequestException('Wallet is disabled');
     }
     return foundWallet;
+  }
+
+  async deposits(amount: number, referenceId: string, customerXid: string) {
+    const foundWallet = await this.walletRepository.query(
+      (data) => data.owned_by == customerXid,
+    )?.[0];
+    if (!foundWallet) {
+      throw new NotFoundException();
+    }
+    const createUuid = randomUUID();
+    const depositToInsert = {
+      id: createUuid,
+      amount: amount,
+      deposited_at: new Date(),
+      deposited_by: customerXid,
+      status: DEPOSITS_STATUS_SUCCESS,
+      wallet_id: foundWallet.id,
+      reference_id: referenceId,
+    };
+    await this.depositRepository.create(depositToInsert);
+    foundWallet.balance += amount;
+    await this.walletRepository.update(foundWallet);
+
+    return depositToInsert;
   }
 }
