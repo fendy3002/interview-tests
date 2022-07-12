@@ -76,4 +76,41 @@ describe('WalletController (e2e)', () => {
       .expect(200);
     expect(getResponse.body.data.wallet.balance).toBe(amount);
   });
+
+  it('POST /api/v1/wallet/withdrawals and receive 201 created', async () => {
+    const amount = 5000;
+    const reference_id = randomUUID();
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/wallet/withdrawals')
+      .set({ 'content-type': 'multipart/form-data' })
+      .set('authorization', `Token ${initializedAccount.token}`)
+      .field('amount', amount)
+      .field('reference_id', reference_id)
+      .expect(201);
+    expect(response.body.data.withdrawal).toBeDefined();
+    expect(response.body.data.withdrawal.amount).toBe(amount);
+    expect(response.body.data.withdrawal.reference_id).toBe(reference_id);
+
+    const getResponse = await request(app.getHttpServer())
+      .get('/api/v1/wallet')
+      .set('authorization', `Token ${initializedAccount.token}`)
+      .expect(200);
+    expect(getResponse.body.data.wallet.balance).toBe(0);
+  });
+
+  it('POST /api/v1/wallet/withdrawals and receive 400 bad request', async () => {
+    const amount = 5000;
+    const reference_id = randomUUID();
+    const response = await request(app.getHttpServer())
+      .post('/api/v1/wallet/withdrawals')
+      .set({ 'content-type': 'multipart/form-data' })
+      .set('authorization', `Token ${initializedAccount.token}`)
+      .field('amount', amount)
+      .field('reference_id', reference_id)
+      .expect(400);
+
+    expect(response.body.message).toBe(
+      'Wallet balance less than withdrawals amount',
+    );
+  });
 });

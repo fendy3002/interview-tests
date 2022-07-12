@@ -1,11 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import {
-  IsDefined,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsDefined, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class DepositsRequest {
   @IsNotEmpty()

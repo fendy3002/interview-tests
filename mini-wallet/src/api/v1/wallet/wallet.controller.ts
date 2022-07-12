@@ -17,10 +17,12 @@ import { AuthenticatedRequest } from 'src/interfaces/AuthenticatedRequest';
 import { WalletService } from 'src/services/wallet.service';
 
 import { DepositsRequest } from './requests/deposits.request';
+import { WithdrawalsRequest } from './requests/withdrawals.request';
 import { DespositsResponse } from './responses/deposits.response';
 import { DisableResponse } from './responses/disable.response';
 import { EnableResponse } from './responses/enable.response';
 import { GetResponse } from './responses/get.response';
+import { WithdrawalsResponse } from './responses/withdrawals.response';
 
 @Controller('api/v1/wallet')
 export class WalletController {
@@ -82,8 +84,33 @@ export class WalletController {
     };
   }
 
+  @UseInterceptors(FileInterceptor('_'))
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @HttpCode(201)
   @Post('/withdrawals')
-  withdrawals() {}
+  async withdrawals(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: WithdrawalsRequest,
+  ): Promise<WithdrawalsResponse> {
+    const withdrawalsResult = await this.walletService.withdrawals(
+      body.amount,
+      body.referenceId,
+      req.account.customerXid,
+    );
+    return {
+      status: STATUS_SUCCESS,
+      data: {
+        withdrawal: {
+          id: withdrawalsResult.id,
+          withdrawn_by: withdrawalsResult.withdrawn_by,
+          status: withdrawalsResult.status,
+          withdrawn_at: withdrawalsResult.withdrawn_at,
+          amount: withdrawalsResult.amount,
+          reference_id: withdrawalsResult.reference_id,
+        },
+      },
+    };
+  }
 
   @Patch('')
   async disable(@Req() req: AuthenticatedRequest): Promise<DisableResponse> {
