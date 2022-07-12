@@ -1,17 +1,36 @@
-import { Controller, Get, Patch, Post, Req } from '@nestjs/common';
+import { Controller, Get, HttpCode, Patch, Post, Req } from '@nestjs/common';
+import { STATUS_SUCCESS } from 'src/constants/status';
 import { AuthenticatedRequest } from 'src/interfaces/AuthenticatedRequest';
+import { WalletService } from 'src/services/wallet.service';
 
 @Controller('api/v1/wallet')
 export class WalletController {
-  constructor() {}
+  constructor(private walletService: WalletService) {}
 
+  @HttpCode(201)
   @Post('')
-  postWallet() {}
+  async enabletWallet(@Req() req: AuthenticatedRequest) {
+    const enableResult = await this.walletService.enable(
+      req.account.customerXid,
+    );
+    return {
+      status: STATUS_SUCCESS,
+      data: {
+        wallet: enableResult,
+      },
+    };
+  }
 
   @Get('')
-  getWallet(@Req() req: AuthenticatedRequest) {
-    console.log('req.account', req.account);
-    return null;
+  async getWallet(@Req() req: AuthenticatedRequest) {
+    const result = await this.walletService.findOne(req.account.customerXid);
+
+    return {
+      status: STATUS_SUCCESS,
+      data: {
+        wallet: result,
+      },
+    };
   }
 
   @Post('/deposits')

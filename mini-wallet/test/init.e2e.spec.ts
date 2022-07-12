@@ -19,7 +19,7 @@ describe('InitController (e2e)', () => {
     app.close();
   });
 
-  it('POST /api/v1/init', async () => {
+  it('POST /api/v1/init and receive 201 created', async () => {
     const customer_xid = 'ea0212d3-abd6-406f-8c67-868e814a2436';
     const response = await request(app.getHttpServer())
       .post('/api/v1/init')
