@@ -6,5 +6,10 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     }
+  },
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "host": "http://localhost:13999"
+    },
   }
 }

@@ -1,0 +1,72 @@
+
+# @name auth
+
+POST {{host}}/api/v1/init HTTP/1.1
+content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="customer_xid"
+
+0ccb0913-4f36-4b21-a98a-4e62153585b6
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+###
+
+@token = {{auth.response.body.$.data.token}}
+
+# @name enableWallet
+POST {{host}}/api/v1/wallet HTTP/1.1
+Content-Type: application/json
+authorization: Token {{token}}
+
+
+###
+
+@token = {{auth.response.body.$.data.token}}
+
+# @name getWallet
+GET {{host}}/api/v1/wallet HTTP/1.1
+Content-Type: application/json
+authorization: Token {{token}}
+
+
+###
+
+@token = {{auth.response.body.$.data.token}}
+
+# @name deposits
+POST {{host}}/api/v1/wallet/deposits HTTP/1.1
+authorization: Token {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amount"
+
+10000
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="reference_id"
+
+72500c74-cf7a-49d5-8f87-c31ef6f44e79
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+###
+
+@token = {{auth.response.body.$.data.token}}
+
+# @name withdrawals
+POST {{host}}/api/v1/wallet/withdrawals HTTP/1.1
+authorization: Token {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amount"
+
+5000
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="reference_id"
+
+72500c74-cf7a-49d5-8f87-c31ef6f44e79
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+

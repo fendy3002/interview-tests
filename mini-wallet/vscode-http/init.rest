@@ -1,0 +1,11 @@
+# @name auth
+POST {{host}}/api/v1/init HTTP/1.1
+content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="customer_xid"
+
+0ccb0913-4f36-4b21-a98a-4e62153585b6
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+@token = {{auth.response.body.$.data.token}}
