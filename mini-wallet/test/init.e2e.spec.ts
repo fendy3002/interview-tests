@@ -4,7 +4,7 @@ import * as request from 'supertest';
 
 import { AppModule } from './../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('InitController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -26,7 +26,6 @@ describe('AppController (e2e)', () => {
       .set({ 'content-type': 'multipart/form-data' })
       .field('customer_xid', customer_xid)
       .expect(201);
-    console.log('response.body', response.body);
     expect(response.body.status).toBe('success');
     expect(typeof response.body.data?.token).toBe('string');
   });

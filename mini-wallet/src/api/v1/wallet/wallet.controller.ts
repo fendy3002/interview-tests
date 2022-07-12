@@ -1,4 +1,5 @@
-import { Controller, Get, Patch, Post } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Req } from '@nestjs/common';
+import { AuthenticatedRequest } from 'src/interfaces/AuthenticatedRequest';
 
 @Controller('api/v1/wallet')
 export class WalletController {
@@ -8,7 +9,10 @@ export class WalletController {
   postWallet() {}
 
   @Get('')
-  getWallet() {}
+  getWallet(@Req() req: AuthenticatedRequest) {
+    console.log('req.account', req.account);
+    return null;
+  }
 
   @Post('/deposits')
   deposits() {}
