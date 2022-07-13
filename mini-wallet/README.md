@@ -1,6 +1,6 @@
 # Wallet
 
-Case study for wallet service
+Case study for wallet service, a form-data based rest API service. Made with NestJS.
 
 # Installation
 
