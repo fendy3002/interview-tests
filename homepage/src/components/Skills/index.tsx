@@ -22,7 +22,7 @@ export const TextPopover = (props: { children: any }) => {
     <Box
       sx={{
         background: BEIGE_700,
-        px: '8px',
+        px: '12px',
         py: '4px',
       }}
     >
@@ -71,7 +71,15 @@ export const Skills = (props: SkillsProps) => {
               </TextPopover>
             }
           />
-          <SkillPoints points={7} skillName="PHP" />
+          <SkillPoints
+            points={7}
+            skillName="PHP"
+            skillDescription={
+              <TextPopover>
+                <p>Used primarily with Laravel.</p>
+              </TextPopover>
+            }
+          />
           <SkillPoints points={7} skillName="C#" />
           <SkillPoints
             points={8}
