@@ -3,6 +3,7 @@ import React from 'react';
 import { Divider } from '@mui/material';
 
 import { Section } from '../Section';
+import { InterviewTests } from './InterviewTests';
 import { Keylocked } from './Keylocked';
 import { QzCodeGenerator } from './QzCodeGenerator';
 import { QzEvaluator } from './QzEvaluator';
@@ -22,6 +23,8 @@ export const Projects = (props: any) => {
             <QzCodeGenerator />
             <Divider />
             <QzEvaluator />
+            <Divider />
+            <InterviewTests />
           </div>
         </Keylocked>
       </Section>
