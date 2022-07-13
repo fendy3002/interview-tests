@@ -1,10 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
-import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
-
-import { motion } from 'framer-motion';
-
-import { BEIGE_800, BG_COLOR_1 } from '../../constants/colors';
 import { Section } from '../Section';
 import { WorkExperienceTimeline } from './WorkExperienceTimeline';
 

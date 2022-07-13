@@ -1,14 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  Grid,
-} from '@mui/material';
+import { Card, CardActionArea, CardContent, Grid } from '@mui/material';
 
 import { motion } from 'framer-motion';
 

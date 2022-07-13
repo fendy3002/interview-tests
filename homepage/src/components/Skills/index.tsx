@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { Box, List, ListItem, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 import { SkillsProps } from '_/types/props/SkillsProps';
 
-import { BEIGE_700, BEIGE_800, BG_COLOR_1 } from '../../constants/colors';
+import { BEIGE_700 } from '../../constants/colors';
 import { Section } from '../Section';
 import { SkillPoints } from './SkillPoints';
 import { Toolings } from './Toolings';

@@ -1,10 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
-import { Box, Divider, Typography } from '@mui/material';
+import { Divider } from '@mui/material';
 
-import { motion } from 'framer-motion';
-
-import { BEIGE_800, BG_COLOR_1 } from '../../constants/colors';
 import { Section } from '../Section';
 import { Keylocked } from './Keylocked';
 import { QzCodeGenerator } from './QzCodeGenerator';
