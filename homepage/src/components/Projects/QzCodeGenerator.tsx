@@ -27,6 +27,15 @@ export const QzCodeGenerator = () => {
       <div style={{ marginBottom: '16px' }}>
         A code generator made using nodejs and nunjucks. It consist of template
         files, and schema files (that direct how the template will render).
+        <p>
+          Try an example project at codesandbox:{' '}
+          <a
+            target="_blank"
+            href="https://codesandbox.io/s/qz-code-generator-4cb4j7"
+          >
+            https://codesandbox.io/s/qz-code-generator-4cb4j7
+          </a>
+        </p>
       </div>
     </>
   );
