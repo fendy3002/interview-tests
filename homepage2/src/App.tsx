@@ -9,8 +9,10 @@ function App() {
         <div>Status:</div>
         <StatusBar point={3} />
       </div>
-      <div>
-        <button className="btn primary">Submit</button>
+      <div style={{ padding: "14px" }}>
+        <button className="btn primary" type="button">
+          Submit
+        </button>
       </div>
     </>
   );

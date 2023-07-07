@@ -26,35 +26,76 @@ code {
 
 button {
   &.btn {
+    background-color: transparent;
     font-family: $font-main;
-    display: inline-block;
-    position: relative;
-    line-height: 24px;
-    padding: 0 .5em;
-    margin: 2em;
-    /* just spacing */
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    line-height: 32px;
+    margin: 0px;
+    padding: 0px 0px 0px 0px;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-top: #000000 solid 2px;
+    border-bottom: #000000 solid 2px;
+    border-left:none;
+    border-right:none;
   }
   &.btn:before,
   &.btn:after {
     content: '';
-    width: 24px;
-    height: 24px;
+    width: 10px;
+    height: 28px;
+    display: inline-block;
+    border-top: #000000 solid 2px;
+    border-bottom: #000000 solid 2px;
+  }
+  &.btn:before {
+    margin-left: -22px;
+    margin-right: 8px;
+    transform-origin: right;
+    transform: perspective(12px) rotateY(-45deg);
+    border-left: #000000 solid 12px;
+    border-right: none;
+  }
+  &.btn:after {
+    margin-right: -22px;
+    margin-left: 8px;
+    transform-origin: left;
+    transform: perspective(12px) rotateY(45deg);
+    border-right: #000000 solid 12px;
+    border-left: none;
   }
 
   &.primary {
+    border-top-color: $primary-light;
+    border-bottom-color: $primary-light;
     background-color: $primary;
-    border-color: $primary-light;
     color: $text-color-primary;
     font-weight: bold;
   }
-  &.primary:after {
-    background-color: $primary;
-    border-left-color: $primary-light;
-  }
   &.primary:before {
     background-color: $primary;
+    border-top-color: $primary-light;
+    border-bottom-color: $primary-light;
+    border-left-color: $primary-light;
+  }
+  &.primary:after {
+    background-color: $primary;
+    border-top-color: $primary-light;
+    border-bottom-color: $primary-light;
     border-right-color: $primary-light;
+  }
+
+  &.primary:hover {
+    background-color: $primary-lighter;
+    cursor: pointer;
+  }
+
+  &.primary:hover:after,
+  &.primary:hover:before {
+    background-color: $primary-lighter;
+    cursor: pointer;
   }
 }
 
