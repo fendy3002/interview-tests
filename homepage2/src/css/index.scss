@@ -32,7 +32,7 @@ button {
     align-items: center;
     height: 32px;
     line-height: 32px;
-    margin: 0px;
+    margin: 0px 8px 0px 8px;
     padding: 0px 0px 0px 0px;
     font-size: 16px;
     text-transform: uppercase;
@@ -66,6 +66,11 @@ button {
     border-right: #000000 solid 12px;
     border-left: none;
   }
+  &.btn:hover,
+  &.btn:hover:after,
+  &.btn:hover:before {
+    cursor: pointer;
+  }
 
   &.primary {
     border-top-color: $primary-light;
@@ -87,15 +92,35 @@ button {
     border-right-color: $primary-light;
   }
 
-  &.primary:hover {
-    background-color: $primary-lighter;
-    cursor: pointer;
-  }
-
+  &.primary:hover,
   &.primary:hover:after,
   &.primary:hover:before {
     background-color: $primary-lighter;
-    cursor: pointer;
+  }
+
+  &.secondary {
+    border-top-color: $secondary-color-light;
+    border-bottom-color: $secondary-color-light;
+    background-color: $secondary-color;
+    color: $text-color-primary;
+    font-weight: bold;
+  }
+  &.secondary:before {
+    background-color: $secondary-color;
+    border-top-color: $secondary-color-light;
+    border-bottom-color: $secondary-color-light;
+    border-left-color: $secondary-color-light;
+  }
+  &.secondary:after {
+    background-color: $secondary-color;
+    border-top-color: $secondary-color-light;
+    border-bottom-color: $secondary-color-light;
+    border-right-color: $secondary-color-light;
+  }
+  &.secondary:hover,
+  &.secondary:hover:after,
+  &.secondary:hover:before {
+    background-color: $secondary-color-light;
   }
 }
 

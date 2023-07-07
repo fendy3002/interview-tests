@@ -13,6 +13,9 @@ function App() {
         <button className="btn primary" type="button">
           Submit
         </button>
+        <button className="btn secondary" type="button">
+          Cancel
+        </button>
       </div>
     </>
   );
