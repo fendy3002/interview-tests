@@ -1,7 +1,8 @@
 @import 'variables';
+@import 'layout';
 
 body {
-  margin: 0;
+  margin: 0 $spacing-two 0 $spacing-two;
   // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   //   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   //   sans-serif;
@@ -19,6 +20,26 @@ code {
     monospace;
 }
 
+hr {
+  display: block;
+  background-color: $primary;
+  border: 0;
+  padding: 0;
+  transform: skew(-20deg);
+  margin: 1em 2px 1em 2px;
+  height: 1px;
+  border-top: 1px solid $primary-light;
+  border-bottom: 1px solid $primary-light;
+  width: calc(100% - 4px);
+}
+
+h1 > hr {
+  margin: 1em 4px 1em 4px;
+  height: 3px;
+  border-top: 2px solid $primary-light;
+  border-bottom: 2px solid $primary-light;
+  width: calc(100% - 8px);
+}
 
 /*
   BUTTON

@@ -1,14 +1,25 @@
 import React from "react";
+import { Introduction } from "./components/Introduction";
+import { PersonalStatus } from "./components/PersonalStatus";
 import { StatusBar } from "./components/StatusBar";
 import "./css/index.scss";
 
 function App() {
   return (
     <>
-      <div style={{ display: "flex", height: "30px", lineHeight: "30px" }}>
-        <div>Status:</div>
-        <StatusBar point={3} />
+      <h1>
+        Fendy Heryanto
+        <hr />
+      </h1>
+      <div className="row">
+        <Introduction />
       </div>
+      <div className="row">
+        <PersonalStatus />
+        <div className="row"></div>
+      </div>
+      <div style={{ width: "200px", marginLeft: "32px" }}></div>
+      <hr />
       <div style={{ padding: "14px" }}>
         <button className="btn primary" type="button">
           Submit

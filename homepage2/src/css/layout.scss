@@ -1,0 +1,17 @@
+div.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.row > div {
+  flex: 1;
+}
+
+.mb-1 {
+  margin-bottom: $spacing-one;
+}
+
+div.column {
+}
