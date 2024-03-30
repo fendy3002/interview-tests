@@ -1,22 +1,23 @@
 import React from "react";
 import { Introduction } from "./components/Introduction";
-import { PersonalStatus } from "./components/PersonalStatus";
 import { StatusBar } from "./components/StatusBar";
 import "./css/index.scss";
+import { Title } from "./components/Title";
+import { PersonalSkills } from "./components/PersonalSkills";
+import { PersonalAbilities } from "./components/PersonalAbilities";
 
 function App() {
   return (
     <>
-      <h1>
-        Fendy Heryanto
-        <hr />
-      </h1>
+      <Title />
       <div className="row">
-        <Introduction />
-      </div>
-      <div className="row">
-        <PersonalStatus />
-        <div className="row"></div>
+        <div className="column">
+          <Introduction />
+          <PersonalSkills />
+        </div>
+        <div className="column">
+          <PersonalAbilities />
+        </div>
       </div>
       <div style={{ width: "200px", marginLeft: "32px" }}></div>
       <hr />

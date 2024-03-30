@@ -14,6 +14,6 @@ export const StatusBar = (payload: { point: number; maxPoint?: number }) => {
     );
   }
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>{pointDivs}</div>
+    <div style={{ display: "flex", justifyContent: "flex-end" }}>{pointDivs}</div>
   );
 };

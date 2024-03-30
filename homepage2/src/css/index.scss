@@ -42,6 +42,31 @@ h1 > hr {
 }
 
 /*
+  TITLE
+*/
+
+.title {
+  margin-bottom: 8px;
+  
+  hr {
+    margin-bottom: 8px;
+  }
+}
+
+/*
+  SECTION
+*/
+
+.section {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+/*
+  INTRODUCTION
+*/
+
+/*
   BUTTON
 */
 
@@ -150,9 +175,9 @@ button {
 */
 
 .status-point {
-  background-color: $primary;
+  background-color: $primary-light;
   min-height: 24px;
-  border: 2px solid $primary-lighter;
+  border: 2px solid $primary;
   aspect-ratio: 2/5;
   transform: skew(-20deg);
   display: inline-block;
@@ -160,9 +185,9 @@ button {
 }
 
 .status-point-empty {
-  background-color: $primary-darker-2;
+  background-color: $primary-lighter3;
   min-height: 24px;
-  border: 2px solid $primary-dark;
+  border: 2px solid $primary-lighter;
   aspect-ratio: 2/5;
   transform: skew(-20deg);
   display: inline-block;

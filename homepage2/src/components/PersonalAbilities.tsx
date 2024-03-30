@@ -1,8 +1,9 @@
 import { StatusBar } from "./StatusBar";
 
-export const PersonalStatus = () => {
+export const PersonalAbilities = () => {
   return (
-    <div>
+    <div className="section personal-abilities">
+      <h3>Abilities</h3>
       <div className="row mb-1">
         <div className="col">Javascript (including typescript and nodejs)</div>
         <div className="col">

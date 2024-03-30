@@ -1,7 +1,8 @@
 export const Introduction = () => {
   return (
     <>
-      <div>
+      <div className="section introduction">
+        <h3>Brief</h3>
         <p>
           I've begun working as software developer since 2012. I was starting
           with .Net C#, for around 4 years. Then I change to both PHP with
