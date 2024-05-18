@@ -17,7 +17,7 @@ export const WorkExperienceLine = (
   }>
 ) => {
   return (
-    <div>
+    <div style={{}} className="mb-2">
       <div>
         <span
           style={{ fontSize: "1.2em", fontWeight: "bold", marginRight: "8px" }}
@@ -55,8 +55,16 @@ export const WorkExperience = () => {
       <div className="section work-experience">
         <h2>Work Experience</h2>
         <WorkExperienceLine
+          company="PT. Achilles Financial System"
+          periodFrom={new Date(2022, 8, 1)}
+          skillSet="NodeJS, ReactJS, MySQL, Git, Docker"
+        >
+          {"TBD"}
+        </WorkExperienceLine>
+        <WorkExperienceLine
           company="PT. Anadana Kode Nontunai"
           periodFrom={new Date(2019, 9, 1)}
+          periodTo={new Date(2022, 8, 1)}
           skillSet="NodeJS, ReactJS, MySQL, Git, Docker"
         >
           <div>
