@@ -53,7 +53,7 @@ export const PersonalAbilities = () => {
   ];
   return (
     <div className="section personal-abilities">
-      <div style={{ minWidth: "100%", maxHeight: "220px" }}>
+      <div style={{ minWidth: "100%", maxHeight: "240px" }}>
         <ResponsiveContainer width="100%" aspect={1}>
           <RadarChart
             cx="45%"
@@ -64,13 +64,16 @@ export const PersonalAbilities = () => {
           >
             <PolarGrid />
             <PolarAngleAxis dataKey="subject" orientation="outer" />
-            <PolarRadiusAxis domain={[0, 10]} />
+            <PolarRadiusAxis
+              tickCount={3}
+              domain={[0, 10]}
+            />
             <Radar
               name="Fendy"
               dataKey="value"
               stroke="#8884d8"
               fill="#8884d8"
-              fillOpacity={0.8}
+              fillOpacity={0.9}
             />
           </RadarChart>
         </ResponsiveContainer>

@@ -2,7 +2,7 @@ export const Introduction = () => {
   return (
     <>
       <div className="section introduction">
-        <h3>Brief</h3>
+        <h2>Brief</h2>
         <p>
           I've begun working as software developer since 2012. I was starting
           with .Net C#, for around 4 years. Then I change to both PHP with

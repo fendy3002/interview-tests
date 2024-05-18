@@ -2,10 +2,17 @@
 @import 'layout';
 
 @media print {
+  @page { 
+    width: 7in;
+    height: 9.25in;
+    margin: 0mm auto 27mm auto;
+  }
   body{
       width: 7in;
       height: 9.25in;
-      margin: 0mm 9mm 27mm 16mm;
+      margin: 16mm auto 27mm auto;
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
       /* change the margins as you want them to be. */
  } 
 }
@@ -209,4 +216,14 @@ button {
   transform: skew(-20deg);
   display: inline-block;
   margin-left: 6px;
+}
+
+/*
+  RECHARTS
+*/
+text.recharts-text.recharts-polar-radius-axis-tick-value {
+  fill: $text-color;
+}
+text.recharts-text.recharts-polar-angle-axis-tick-value {
+  fill: $text-color;
 }
