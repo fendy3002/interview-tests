@@ -1,6 +1,5 @@
 import React from "react";
 import { Introduction } from "./components/Introduction";
-import { StatusBar } from "./components/StatusBar";
 import "./css/index.scss";
 import { Title } from "./components/Title";
 import { PersonalSkills } from "./components/PersonalSkills";
@@ -13,10 +12,14 @@ function App() {
       <div className="row">
         <div className="column">
           <Introduction />
-          <PersonalSkills />
         </div>
         <div className="column">
           <PersonalAbilities />
+        </div>
+      </div>
+      <div className="row">
+        <div className="column">
+          <PersonalSkills />
         </div>
       </div>
       <div style={{ width: "200px", marginLeft: "32px" }}></div>
