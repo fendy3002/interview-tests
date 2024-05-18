@@ -31,6 +31,11 @@ export const PersonalAbilities = () => {
       fullMark: 10,
     },
     {
+      subject: "Leadership",
+      value: 6,
+      fullMark: 10,
+    },
+    {
       subject: "Support",
       value: 8,
       fullMark: 10,
@@ -41,11 +46,6 @@ export const PersonalAbilities = () => {
       fullMark: 10,
     },
     {
-      subject: "Leadership",
-      value: 6,
-      fullMark: 10,
-    },
-    {
       subject: "UI / UX",
       value: 5,
       fullMark: 10,
@@ -53,16 +53,14 @@ export const PersonalAbilities = () => {
   ];
   return (
     <div className="section personal-abilities">
-      <h3>Abilities</h3>
-
-      <div style={{ minWidth: "100%", maxHeight: "280px" }}>
+      <div style={{ minWidth: "100%", maxHeight: "220px" }}>
         <ResponsiveContainer width="100%" aspect={1}>
           <RadarChart
-            cx="50%"
-            cy="35%"
-            outerRadius="50%"
+            cx="45%"
+            cy="43%"
+            outerRadius="60%"
             data={data}
-            style={{ fontSize: "14px", fontFamily: "'Droid Sans Mono', 'monospace', monospace" }}
+            style={{ fontSize: "12px" }}
           >
             <PolarGrid />
             <PolarAngleAxis dataKey="subject" orientation="outer" />

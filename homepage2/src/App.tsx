@@ -10,16 +10,25 @@ function App() {
     <>
       <Title />
       <div className="row">
-        <div className="column">
-          <Introduction />
+        <div className="column-1">
+          <div className="row">
+            <div className="column">
+              <PersonalAbilities />
+            </div>
+          </div>
+          <div className="row">
+            <div className="column mr-1">
+              <PersonalSkills />
+            </div>
+          </div>
         </div>
-        <div className="column">
-          <PersonalAbilities />
-        </div>
-      </div>
-      <div className="row">
-        <div className="column">
-          <PersonalSkills />
+        <div className="column-2">
+          <div className="row">
+            <div className="column">
+              <Introduction />
+            </div>
+          </div>
+          <hr />
         </div>
       </div>
       <div style={{ width: "200px", marginLeft: "32px" }}></div>

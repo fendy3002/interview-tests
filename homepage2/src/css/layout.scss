@@ -7,12 +7,38 @@ div.row {
 }
 
 div.row > div {
-  flex: 1;
+  
 }
 
 .mb-1 {
   margin-bottom: $spacing-one;
 }
+.mb-2 {
+  margin-bottom: $spacing-two;
+}
+.ml-1 {
+  margin-left: $spacing-one;
+}
+.ml-2 {
+  margin-left: $spacing-two;
+}
+.mr-1 {
+  margin-right: $spacing-one;
+}
+.mr-2 {
+  margin-right: $spacing-two;
+}
 
 div.column {
+  flex-grow: 1;
+}
+div.column-1 {
+  flex-basis: 35%;
+}
+div.column-2 {
+  flex-basis: 65%;
+}
+
+.text-right {
+  text-align: right;
 }
