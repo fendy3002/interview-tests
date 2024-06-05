@@ -227,3 +227,23 @@ text.recharts-text.recharts-polar-radius-axis-tick-value {
 text.recharts-text.recharts-polar-angle-axis-tick-value {
   fill: $text-color;
 }
+
+svg.recharts-surface g.recharts-layer.recharts-polar-angle-axis-ticks{
+  font-size: 0.85rem;
+  g.recharts-layer.recharts-polar-angle-axis-tick:nth-of-type(2) {
+    transform: rotate(50deg);
+    transform-origin: 215px 45px;
+  }
+  g.recharts-layer.recharts-polar-angle-axis-tick:nth-of-type(3) {
+    transform: rotate(305deg);
+    transform-origin: 226px 187px;
+  }
+  g.recharts-layer.recharts-polar-angle-axis-tick:nth-of-type(5) {
+    transform: rotate(45deg);
+    transform-origin: 30px 170px;
+  }
+  g.recharts-layer.recharts-polar-angle-axis-tick:nth-of-type(6) {
+    transform: rotate(305deg);
+    transform-origin: 36px 52px;
+  }
+}

@@ -18,7 +18,7 @@ function App() {
             </div>
           </div>
           <div className="row">
-            <div className="column">
+            <div className="column mr-2">
               <PersonalSkills />
             </div>
           </div>
