@@ -38,14 +38,9 @@ function App() {
       </div>
       <div style={{ width: "200px", marginLeft: "32px" }}></div>
       <hr />
-      <div style={{ padding: "14px" }}>
-        <button className="btn primary" type="button">
-          Submit
-        </button>
-        <button className="btn secondary" type="button">
-          Cancel
-        </button>
-      </div>
+      <div
+        style={{ minHeight: "1px", marginTop: "16px", marginBottom: "16px" }}
+      ></div>
     </>
   );
 }

@@ -55,7 +55,7 @@ export const WorkExperience = () => {
   return (
     <>
       <div className="section work-experience">
-        <h2>Work Experience</h2>
+        <h2 style={{ marginTop: "12px" }}>Work Experience</h2>
         <WorkExperienceLine
           company="PT. Achilles Financial System"
           periodFrom={new Date(2022, 7, 1)}
@@ -187,7 +187,9 @@ export const WorkExperience = () => {
           periodTo={new Date(2014, 1, 1)}
           skillSet="Jr. Software Developer; C#, Asp.Net Webform, SQL Server"
         >
-          {"Managed an inhouse system used by PT. Freeport Indonesia that interacts with SAP."}
+          {
+            "Managed an inhouse system used by PT. Freeport Indonesia that interacts with SAP."
+          }
         </WorkExperienceLine>
       </div>
     </>
