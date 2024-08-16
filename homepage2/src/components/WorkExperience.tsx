@@ -61,7 +61,43 @@ export const WorkExperience = () => {
           periodFrom={new Date(2022, 7, 1)}
           skillSet="Team Lead; NodeJS (NestJS & NextJS), ReactJS, PostgreSQL, Docker, RabbitMQ"
         >
-          {"TBD"}
+          <div>
+            {
+              "Managed a team of 4 to release and maintain end-to-end money in and money out flow"
+            }
+          </div>
+          <ul>
+            <li>
+              Release a deposit / user balance system with high reliability and
+              minimum concurrency issues, processing 90 billions IDR worth of
+              transactions, and opening a new revenue stream of 800 millions IDR
+              monthly
+            </li>
+            <li>
+              Successfully launching a very flexible checkout / payment system
+              that can be easily requested by other business unit's systems and
+              accessed from multiple sources. Handling 382,000 requests over
+              7,000 users monthly.
+              <br />
+              The easiness and flexibility reduces the integration effort for
+              payment from other business units by 70%
+            </li>
+            <li>
+              Design, develop and implement a business-unit wide library that's
+              easily configured and modified, increasing development
+              efficiencies by 50%
+            </li>
+            <li>
+              Deployed a reconciliation systems to verify system transactions
+              and bank / partner reports, reducing issues from settlements by
+              90%
+            </li>
+            <li>
+              Integrate with bank or payment gateway to make disbursements, and
+              developed an engine that can route disbursements to different
+              partners, managing more than 1.1 billion IDR disbursements monthly
+            </li>
+          </ul>
         </WorkExperienceLine>
         <WorkExperienceLine
           company="FWD Insurance - Singapore (Remote)"
