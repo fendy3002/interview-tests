@@ -60,13 +60,7 @@ export const Education = () => {
           institute="Bina Nusantara University"
           periodFrom={new Date(2008, 6, 1)}
           periodTo={new Date(2012, 1, 1)}
-          skillSet="Majoring in Information System"
-        ></EducationLine>
-        <EducationLine
-          institute="Ricci High School"
-          periodFrom={new Date(2005, 6, 1)}
-          periodTo={new Date(2008, 5, 1)}
-          skillSet=""
+          skillSet="Bachelor's degree, majoring in Information System"
         ></EducationLine>
       </div>
     </>
