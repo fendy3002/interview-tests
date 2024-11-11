@@ -1,0 +1,27 @@
+version: '3.5'
+services:
+  testpostgres:
+    image: postgres
+    ports:
+      - 9432:5432
+    volumes:
+      - ./docker/testpostgres/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: testPass@123
+      POSTGRES_USER: testuser
+      POSTGRES_DB: testdb
+  minio:
+    image: quay.io/minio/minio:latest
+    ports:
+      - 9100:9000
+      - 9101:9001
+    volumes:
+      - ./docker/minio/data:/data
+    command: "server /data --console-address \":9001\""
+    environment:
+      MINIO_ROOT_USER: testuser
+      MINIO_ROOT_PASSWORD: testPass@123
+  redis:
+    image: redis:latest
+    ports:
+      - 9379:6379
