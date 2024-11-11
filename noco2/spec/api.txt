@@ -1,0 +1,19 @@
+GET /api/table
+Response: table.dto []
+
+GET /api/table/:table_name
+Response: table-info.dto
+Error: 404 - if table name not found
+
+GET /api/table/:table_name/rows
+Response: table-rows-response.dto
+Error: 404 - if table name not found
+
+POST /api/table/import/csv
+Request: import-csv-request.dto
+Response: import-csv-response.dto
+Error: 400 - if the file is incorrect / not readable / size wrong
+
+GET /api/table/import/:jobId
+Response: import-job.dto
+
