@@ -9,6 +9,7 @@ import { IImportCsvRequestDto } from 'src/model/import-csv-request.dto';
 import { DataSource } from 'typeorm';
 import { v6 as uuid } from 'uuid';
 import { StorageService } from '../storage/storage.service';
+import { CsvFileParserService } from './csv-file-parser.service';
 
 // can use v4 uuid if want
 
@@ -16,6 +17,7 @@ import { StorageService } from '../storage/storage.service';
 export class TableFileImportService {
   constructor(
     private readonly storageService: StorageService,
+    private readonly csvFileParserService: CsvFileParserService,
     @InjectQueue('table-file-import-csv')
     private readonly tableFileImportProcessor: Queue<IImportCsvJobDto>,
     @InjectDataSource()
@@ -47,7 +49,7 @@ export class TableFileImportService {
     await this.tableFileImportProcessor.add(job);
   }
 
-  async processCsvData(job: IImportCsvJobDto) {
+  async initiateCsvData(job: IImportCsvJobDto) {
     const importRequest = await this.dataSource
       .getRepository(ImportRequest)
       .findOne({
@@ -55,15 +57,17 @@ export class TableFileImportService {
           id: job.id,
         },
       });
+    const fileStream = await this.storageService.download({
+      objectName: importRequest.fileurl,
+    });
 
-    // TODO: library to read and parse csv
     const csvData: {
       headers: string[];
       rows: any[];
-    } = {
-      headers: ['Col1', 'Col2', 'Col3'],
-      rows: [],
-    };
+    } = await this.csvFileParserService.parseCsvFromReadableRanged(fileStream, {
+      from: 1,
+      to: 2,
+    });
 
     // TODO: check if table name is already exists or not, if yes, append with _1 or _2
     const tableName = importRequest.filename;
@@ -74,6 +78,7 @@ export class TableFileImportService {
       return `  "${header}" TEXT,`;
     });
     await this.dataSource.transaction(async (em) => {
+      // create the associated table
       await em.query(
         [
           `CREATE TABLE ${tableName} (`,
@@ -83,13 +88,19 @@ export class TableFileImportService {
           `)`,
         ].join(' '),
       );
-      // FIXME: this can be improved with batches like 50 or 100 rows per insert
-      await em
-        .createQueryBuilder()
-        .insert()
-        .into(tableName)
-        .values(csvData.rows)
-        .execute();
+
+      // update the import request
+      await em.getRepository(ImportRequest).update(
+        {
+          id: job.id,
+        },
+        {
+          status: ImportRequestStatus.DATA_POPULATION,
+          importedRows: 0,
+          totalRows: csvData.rows.length,
+          resultingTableName: tableName,
+        },
+      );
     });
   }
 }

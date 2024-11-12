@@ -11,6 +11,7 @@ export class M202411112132Init implements MigrationInterface {
         `  id uuid NOT NULL,`,
         `  created_at timestamp,`,
         `  filename VARCHAR(200),`,
+        `  filetype VARCHAR(20),`,
         `  fileurl TEXT,`,
         `  status VARCHAR(50),`,
         `  resulting_table_name TEXT,`,

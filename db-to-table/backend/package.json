@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
     "bull": "^4.16.4",
+    "csv-parse": "^5.5.6",
     "minio": "^8.0.2",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.0",

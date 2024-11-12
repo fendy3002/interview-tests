@@ -15,6 +15,9 @@ export class ImportRequest {
   @Column({ name: 'fileurl' })
   fileurl: string;
 
+  @Column({ name: 'filetype' })
+  filetype: string;
+
   @Column({ name: 'status', type: 'simple-enum' })
   status: ImportRequestStatus;
 
