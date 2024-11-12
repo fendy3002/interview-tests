@@ -1,6 +1,6 @@
 export enum ImportRequestStatus {
   PENDING = 'PENDING',
   DATA_POPULATION = 'DATA_POPULATION',
-  SUCCESS = 'SUCCESS',
+  DONE = 'DONE',
   FAILED = 'FAILED',
 }

@@ -1,0 +1,19 @@
+// to be used with REST client vscode extension
+// https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+// variables
+@host = http://localhost:3999
+
+GET {{host}}
+
+###
+
+POST {{host}}/api/table/import/csv
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="data.csv"
+Content-Type: text/csv
+
+< ./data.csv
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

@@ -15,6 +15,6 @@ export class TableFileImportCsvProcessor {
   @Process()
   async handle(job: Job<IImportCsvJobDto>) {
     this.logger.log(`start:`, job.data);
-    await this.tableFileImportService.initiateCsvData(job.data);
+    await this.tableFileImportService.handleJob(job.data);
   }
 }

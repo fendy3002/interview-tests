@@ -21,15 +21,15 @@ export class ImportRequest {
   @Column({ name: 'status', type: 'simple-enum' })
   status: ImportRequestStatus;
 
-  @Column({ name: 'resulting_table_name' })
+  @Column({ name: 'resulting_table_name', nullable: true })
   resultingTableName: string;
 
-  @Column({ name: 'error_messages' })
+  @Column({ name: 'error_messages', nullable: true })
   errorMessages: string;
 
-  @Column({ name: 'total_rows' })
+  @Column({ name: 'total_rows', nullable: true })
   totalRows: number;
 
-  @Column({ name: 'imported_rows' })
+  @Column({ name: 'imported_rows', nullable: true })
   importedRows: number;
 }

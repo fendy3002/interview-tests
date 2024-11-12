@@ -13,7 +13,7 @@ export default () => ({
   },
   minio: {
     bucketName: 'testbucket',
-    endPoint: 'http://localhost',
+    endPoint: 'localhost',
     port: 9100,
     useSSL: false,
     accessKey: 'testuser',

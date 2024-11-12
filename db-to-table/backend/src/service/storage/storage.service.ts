@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Client, ItemBucketMetadata } from 'minio';
 import { Readable } from 'stream';
 
+@Injectable()
 export class StorageService {
   constructor(private readonly configService: ConfigService) {}
   minioClient() {
@@ -15,8 +17,13 @@ export class StorageService {
     contentType: string;
     metadata?: ItemBucketMetadata;
   }) {
+    const bucketName =
+      payload.bucketName ?? this.configService.get('minio.bucketName');
+    if (!(await this.minioClient().bucketExists(bucketName))) {
+      await this.minioClient().makeBucket(bucketName);
+    }
     return await this.minioClient().putObject(
-      payload.bucketName ?? this.configService.get('minio.bucketName'),
+      bucketName,
       payload.objectName,
       payload.stream,
       payload.size,
