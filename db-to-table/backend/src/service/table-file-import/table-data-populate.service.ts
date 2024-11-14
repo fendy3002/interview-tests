@@ -8,6 +8,7 @@ import { IImportCsvJobDto } from 'src/model/import-csv-job.dto';
 import { DataSource } from 'typeorm';
 import { StorageService } from '../storage/storage.service';
 import { CsvFileParserService } from './csv-file-parser.service';
+import { errorToString } from 'src/tool/error-log.tool';
 
 // can be adjusted to match
 const POPULATE_BATCH_SIZE = 10000;

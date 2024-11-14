@@ -4,7 +4,21 @@
 // variables
 @host = http://localhost:3999
 
+### get hello
+
 GET {{host}}
+
+### get table
+
+GET {{host}}/api/table
+
+### get table data
+
+GET {{host}}/api/table/data
+
+### get table schema for table import_request
+
+GET {{host}}/api/table/import_request/schema
 
 ###
 

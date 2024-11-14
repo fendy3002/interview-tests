@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import "./App.scss";
+import "./App.css";
 import { TableIndexPage } from "./views/table-index";
 
 const router = createBrowserRouter([
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <TableIndexPage />,
   },
   {
-    path: "/:table_name",
+    path: "/table/:table_name",
     element: <TableIndexPage />,
   },
 ]);

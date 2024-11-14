@@ -1,23 +1,29 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { TableIndexStore } from "../store/table-index.store";
-import { TableList } from "./table-index/table-list";
 import { TableData } from "./table-index/table-data";
+import { TableList } from "./table-index/table-list";
 
 export const TableIndexPageObserver = observer<{
   tableIndexStore: TableIndexStore;
 }>(({ tableIndexStore }) => {
   useEffect(() => {
     tableIndexStore.initialize();
+    return () => {
+      tableIndexStore.destroy();
+    };
   }, []);
   return (
     <>
-      <div className="flex">
-        <div className="flex-auto">
-          <TableList tableNames={[]}></TableList>
+      <div className="grid grid-cols-[20%_80%] w-full">
+        <div>
+          <TableList tableNames={tableIndexStore.state.tableNames}></TableList>
         </div>
-        <div className="flex-auto">
-          <TableData></TableData>
+        <div>
+          <TableData
+            tableColumns={tableIndexStore.state.tableColumns}
+            tableData={tableIndexStore.state.tableData}
+          ></TableData>
         </div>
       </div>
     </>
@@ -25,6 +31,6 @@ export const TableIndexPageObserver = observer<{
 });
 
 export function TableIndexPage() {
-  const [tableIndexStore] = useState(new TableIndexStore());
+  const [tableIndexStore] = useState(new TableIndexStore(import.meta.env));
   return <TableIndexPageObserver tableIndexStore={tableIndexStore} />;
 }

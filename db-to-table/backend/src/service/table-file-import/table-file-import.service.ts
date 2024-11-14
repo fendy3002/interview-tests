@@ -12,6 +12,7 @@ import { StorageService } from '../storage/storage.service';
 import { CsvFileParserService } from './csv-file-parser.service';
 import * as path from 'path';
 import { TableDataPopulateService } from './table-data-populate.service';
+import { errorToString } from 'src/tool/error-log.tool';
 
 // can use v4 uuid if want
 
@@ -104,9 +105,8 @@ export class TableFileImportService {
           em,
           path.parse(importRequest.filename).name,
         );
+        this.logger.log('Create table with name: ' + tableName);
         const primaryKeyName = this.dataSource.driver.escape(tableName + '_pk');
-
-        em.query('');
 
         const createTableQuery = [
           `CREATE TABLE ${this.dataSource.driver.escape(tableName)} (`,
@@ -136,6 +136,7 @@ export class TableFileImportService {
     } catch (ex) {
       // for now, just make the import request failed
       // in reality, we can check the error type and determine whether it can be retried or not
+      this.logger.error(errorToString(ex));
 
       await this.dataSource.getRepository(ImportRequest).update(
         {
@@ -160,10 +161,10 @@ export class TableFileImportService {
     FROM information_schema.tables
     WHERE table_schema = 'public'
       AND table_type = 'BASE TABLE'
-      AND table_name = ?;`;
+      AND table_name = $1;`;
     const result = await em.query(postgresQuery, [tableName]);
     if (result.length > 0) {
-      const tableSuffix = tableName.match(/^.+_(\d+)$/);
+      const tableSuffix = tableName.match(TABLE_NAME_SUFFIX_REGEX);
 
       if (tableSuffix) {
         const suffixNumber = tableSuffix[1]; // Output: 1
