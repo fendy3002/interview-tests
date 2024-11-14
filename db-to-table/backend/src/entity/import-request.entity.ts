@@ -32,4 +32,8 @@ export class ImportRequest {
 
   @Column({ name: 'imported_rows', nullable: true })
   importedRows: number;
+
+  // for now can be used to retry populate data
+  @Column({ name: 'retry_times', nullable: true })
+  retryTimes: number;
 }

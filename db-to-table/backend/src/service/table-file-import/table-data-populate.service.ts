@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { ImportRequest } from 'src/entity/import-request.entity';
@@ -22,6 +22,7 @@ export class TableDataPopulateService {
     @InjectDataSource()
     private readonly dataSource: DataSource,
   ) {}
+  logger = new Logger(TableDataPopulateService.name);
 
   async pushJobForPopulateData(job: IImportCsvJobDto) {
     await this.tableDataPopulateProcessor.add(job);
@@ -31,8 +32,7 @@ export class TableDataPopulateService {
     try {
       await this.populateDataFromImportRequestId(job.id);
     } catch (ex) {
-      //TODO: better error logging
-      console.log(ex);
+      this.logger.error(errorToString(ex));
     }
   }
 
@@ -73,8 +73,10 @@ export class TableDataPopulateService {
 
       const tableName = importRequest.resultingTableName;
       if (batchSize > 0) {
+        this.logger.log(
+          `Inserting records ${importedRowCount} to ${importedRowCount + batchSize} to table ${importRequest.resultingTableName} for id ${importRequest.id}`,
+        );
         await this.dataSource.transaction(async (em) => {
-          console.log('inserting', csvData.rows);
           await em
             .createQueryBuilder()
             .insert()
@@ -88,6 +90,7 @@ export class TableDataPopulateService {
             },
             {
               importedRows: importedRowCount + batchSize,
+              retryTimes: 0,
             },
           );
         });

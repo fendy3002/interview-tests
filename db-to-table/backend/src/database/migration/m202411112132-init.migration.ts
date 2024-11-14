@@ -18,6 +18,7 @@ export class M202411112132Init implements MigrationInterface {
         `  error_messages TEXT,`,
         `  total_rows BIGINT,`,
         `  imported_rows BIGINT,`,
+        `  retry_times INT DEFAULT 0,`,
         `  constraint import_request_pk primary key (id)`,
         `);`,
       ].join(' '),

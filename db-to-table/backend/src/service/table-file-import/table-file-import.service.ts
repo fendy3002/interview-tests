@@ -1,12 +1,12 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { ImportRequest } from 'src/entity/import-request.entity';
 import { ImportRequestStatus } from 'src/enum/import-request.status.enum';
 import { IImportCsvJobDto } from 'src/model/import-csv-job.dto';
 import { IImportCsvRequestDto } from 'src/model/import-csv-request.dto';
-import { DataSource } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
 import { v6 as uuid } from 'uuid';
 import { StorageService } from '../storage/storage.service';
 import { CsvFileParserService } from './csv-file-parser.service';
@@ -14,6 +14,8 @@ import * as path from 'path';
 import { TableDataPopulateService } from './table-data-populate.service';
 
 // can use v4 uuid if want
+
+const TABLE_NAME_SUFFIX_REGEX = /^.+_(\d+)$/;
 
 @Injectable()
 export class TableFileImportService {
@@ -26,6 +28,15 @@ export class TableFileImportService {
     @InjectDataSource()
     private readonly dataSource: DataSource,
   ) {}
+  logger = new Logger(TableFileImportService.name);
+
+  async getImportRequestInfo(id: string) {
+    return await this.dataSource.getRepository(ImportRequest).findOneOrFail({
+      where: {
+        id,
+      },
+    });
+  }
 
   async importCsv(request: IImportCsvRequestDto) {
     await this.storageService.upload({
@@ -60,8 +71,7 @@ export class TableFileImportService {
     try {
       await this.initiateCsvData(job.id);
     } catch (ex) {
-      //TODO: better error logging
-      console.log(ex);
+      this.logger.error(errorToString(ex));
     }
   }
 
@@ -84,39 +94,89 @@ export class TableFileImportService {
       from: 1,
       to: 2,
     });
-    // TODO: check if table name is already exists or not, if yes, append with _1 or _2
-    const tableName = path.parse(importRequest.filename).name;
-    const primaryKeyName = this.dataSource.driver.escape(tableName + '_pk');
 
     const columns = csvData.headers.map((header) => {
-      return `  "${header}" TEXT,`;
+      return `  ${this.dataSource.driver.escape(header)} TEXT,`;
     });
-    await this.dataSource.transaction(async (em) => {
-      const createTableQuery = [
-        `CREATE TABLE ${this.dataSource.driver.escape(tableName)} (`,
-        `  id BIGSERIAL,`,
-        ...columns,
-        `  constraint ${primaryKeyName} primary key (id)`,
-        `)`,
-      ].join(' ');
+    try {
+      await this.dataSource.transaction(async (em) => {
+        const tableName = await this.getAvalableTableName(
+          em,
+          path.parse(importRequest.filename).name,
+        );
+        const primaryKeyName = this.dataSource.driver.escape(tableName + '_pk');
 
-      // create the associated table
-      await em.query(createTableQuery);
+        em.query('');
 
-      // update the import request
-      await em.getRepository(ImportRequest).update(
+        const createTableQuery = [
+          `CREATE TABLE ${this.dataSource.driver.escape(tableName)} (`,
+          `  id BIGSERIAL,`,
+          ...columns,
+          `  constraint ${primaryKeyName} primary key (id)`,
+          `)`,
+        ].join(' ');
+
+        // create the associated table
+        await em.query(createTableQuery);
+
+        // update the import request
+        await em.getRepository(ImportRequest).update(
+          {
+            id,
+          },
+          {
+            status: ImportRequestStatus.DATA_POPULATION,
+            importedRows: 0,
+            // not used yet, I try to approach it with a ranged parsing instead
+            totalRows: 0,
+            resultingTableName: tableName,
+          },
+        );
+      });
+    } catch (ex) {
+      // for now, just make the import request failed
+      // in reality, we can check the error type and determine whether it can be retried or not
+
+      await this.dataSource.getRepository(ImportRequest).update(
         {
           id,
         },
         {
-          status: ImportRequestStatus.DATA_POPULATION,
-          importedRows: 0,
-          // not used yet, I try to approach it with a ranged parsing instead
-          totalRows: 0,
-          resultingTableName: tableName,
+          status: ImportRequestStatus.FAILED,
+          errorMessages: errorToString(ex),
         },
       );
-    });
+      return;
+    }
     await this.tableDataPopulateService.pushJobForPopulateData({ id });
+  }
+
+  async getAvalableTableName(em: EntityManager, tableName: string) {
+    // if the name has been taken, append with _1
+    // if there exists an _1, increment it
+    // some optimization can be made with query
+    // but this works for now
+    const postgresQuery = `SELECT table_name
+    FROM information_schema.tables
+    WHERE table_schema = 'public'
+      AND table_type = 'BASE TABLE'
+      AND table_name = ?;`;
+    const result = await em.query(postgresQuery, [tableName]);
+    if (result.length > 0) {
+      const tableSuffix = tableName.match(/^.+_(\d+)$/);
+
+      if (tableSuffix) {
+        const suffixNumber = tableSuffix[1]; // Output: 1
+        const newTableName = tableName.replace(
+          new RegExp(suffixNumber + '$'),
+          (parseInt(suffixNumber) + 1).toString(),
+        );
+        return await this.getAvalableTableName(em, newTableName);
+      } else {
+        const newTableName = tableName + '_1';
+        return await this.getAvalableTableName(em, newTableName);
+      }
+    }
+    return tableName;
   }
 }

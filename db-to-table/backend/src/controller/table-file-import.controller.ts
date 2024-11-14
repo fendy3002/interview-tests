@@ -1,5 +1,7 @@
 import {
   Controller,
+  Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -14,6 +16,11 @@ export class TableFileImportController {
   constructor(
     private readonly tableFileImportService: TableFileImportService,
   ) {}
+
+  @Get('/:id')
+  async getImportRequestInfo(@Param('id') id: string) {
+    return await this.tableFileImportService.getImportRequestInfo(id);
+  }
 
   // FIXME: setup file limit
   @Post('/csv')
