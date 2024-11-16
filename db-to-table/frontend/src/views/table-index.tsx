@@ -21,6 +21,7 @@ export const TableIndexPageObserver = observer<{
         <div>
           <TableList
             tableNames={tableIndexStore.state.tableNames}
+            currentTableName={tableIndexStore.state.currentTable}
             uploadModal={
               <TableUploadModal
                 onClose={() => tableIndexStore.initialize()}

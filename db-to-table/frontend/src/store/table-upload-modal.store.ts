@@ -24,6 +24,7 @@ export class TableUploadModalStore {
       },
     };
     this.uploadFile = this.uploadFile.bind(this);
+    this.poolJob = this.poolJob.bind(this);
   }
   state: TableUploadModalState;
 
@@ -64,6 +65,31 @@ export class TableUploadModalStore {
           status: "PENDING",
         };
       });
+      this.poolJob();
+    }
+  }
+
+  async poolJob() {
+    // delay by 500ms
+    await new Promise<void>((resolve) =>
+      setTimeout(() => {
+        resolve();
+      }, 500)
+    );
+    const job = (
+      await axios.get(
+        this.env.VITE_API_HOST + "/api/table/import/" + this.state.job!.id
+      )
+    ).data;
+    runInAction(() => {
+      this.state.job = {
+        id: job.id,
+        status: job.status,
+        resultingTableName: job.resultingTableName,
+      };
+    });
+    if (!["DONE", "FAILED"].includes(job.status)) {
+      setTimeout(() => this.poolJob(), 0);
     }
   }
 }

@@ -11,14 +11,16 @@ export const UploadInfo = (props: {
   if (props.job.status === "DONE") {
     return (
       <>
-        <div>
-          <span>{props.file.name}</span>
-          <span>
+        <div className="flex direction-column h-[100px] pt-[10px]">
+          <div className="flex-grow">{props.file.name}</div>
+          <span className="text-green-600">
             <CheckCircle />
           </span>
         </div>
         <DialogFooter>
-          <Button onClick={() => props.onClose()}>Cancel</Button>
+          <Button onClick={() => props.onClose()} variant="secondary">
+            Cancel
+          </Button>
           <Button
             onClick={() => props.onViewTable(props.job.resultingTableName!)}
           >
