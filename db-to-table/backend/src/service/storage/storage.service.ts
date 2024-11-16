@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Client, ItemBucketMetadata } from 'minio';
 import { Readable } from 'stream';
+import { FileStorageService } from './file-storage.service';
 
 @Injectable()
 export class StorageService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly fileStorageService: FileStorageService,
+  ) {}
   minioClient() {
     return new Client(this.configService.get('minio'));
   }
@@ -17,6 +21,9 @@ export class StorageService {
     contentType: string;
     metadata?: ItemBucketMetadata;
   }) {
+    if (this.configService.get('storage.mode') === 'local') {
+      return await this.fileStorageService.upload(payload);
+    }
     const bucketName =
       payload.bucketName ?? this.configService.get('minio.bucketName');
     if (!(await this.minioClient().bucketExists(bucketName))) {
@@ -34,6 +41,9 @@ export class StorageService {
     );
   }
   async download(payload: { bucketName?: string; objectName: string }) {
+    if (this.configService.get('storage.mode') === 'local') {
+      return await this.fileStorageService.download(payload);
+    }
     return await this.minioClient().getObject(
       payload.bucketName ?? this.configService.get('minio.bucketName'),
       payload.objectName,

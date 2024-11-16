@@ -1,4 +1,5 @@
 import * as deepmerge from 'deepmerge';
+import * as path from 'path';
 import { existsSync } from 'fs';
 
 const defaultAppConfig = () => ({
@@ -16,6 +17,12 @@ const defaultAppConfig = () => ({
   },
   redis: {
     url: process.env.REDIS_URL,
+  },
+  storage: {
+    mode: 'minio',
+  },
+  localStorage: {
+    directory: path.join(__dirname, '..', '..', 'temp'),
   },
   // we use minio for now, can be switched with s3
   minio: {
