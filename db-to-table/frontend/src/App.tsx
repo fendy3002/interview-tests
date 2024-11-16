@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <TableIndexPage />,
   },
   {
-    path: "/table/:table_name",
+    path: "/table/:table_name/page/:page_number",
     element: <TableIndexPage />,
   },
 ]);

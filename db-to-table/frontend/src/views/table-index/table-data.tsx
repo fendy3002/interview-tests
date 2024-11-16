@@ -1,3 +1,4 @@
+import { Pagination } from "@/components/logic-ui/pagination";
 import {
   Table,
   TableBody,
@@ -22,6 +23,11 @@ export const TableData = observer(
       is_nullable: string;
     }[];
     tableData: any[];
+    currentPage: number;
+    countRecord: number;
+    totalPages: number;
+    linkToPage: (page: number) => string;
+    onChangePage: (page: number) => void;
   }) => {
     const columnsDef = props.tableColumns.map((col) => ({
       accessorKey: col.column_name,
@@ -31,11 +37,12 @@ export const TableData = observer(
       data: props.tableData,
       columns: columnsDef,
       getCoreRowModel: getCoreRowModel(),
+      enableRowPinning: true,
     });
     return (
       <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+        <Table containerClassName="h-[90vh]">
+          <TableHeader className="sticky top-0  bg-secondary">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -82,6 +89,18 @@ export const TableData = observer(
             )}
           </TableBody>
         </Table>
+        <Pagination
+          className="bg-secondary"
+          currentPage={props.currentPage}
+          totalPage={props.totalPages}
+          linkToPage={props.linkToPage}
+          onClick={(evt) => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            props.onChangePage(parseInt(evt.currentTarget.dataset.page!));
+          }}
+          isShowFirstLast={true}
+        ></Pagination>
       </div>
     );
   }

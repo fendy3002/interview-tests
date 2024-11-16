@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
+const PAGE_LIMIT = 50;
+
 @Injectable()
 export class TableService {
   constructor(
@@ -22,13 +24,27 @@ export class TableService {
     return result;
   }
 
-  async getTableData(tableName: string) {
-    const query = [
-      `SELECT *`,
-      `FROM ${this.dataSource.driver.escape(tableName)} `,
-    ].join(' ');
-    const result = await this.dataSource.query(query);
-    return result;
+  async getTableData(tableName: string, searchParam: { page: number }) {
+    const query = [`FROM ${this.dataSource.driver.escape(tableName)} `].join(
+      ' ',
+    );
+
+    const rowResults = await this.dataSource.query(
+      [
+        `SELECT *`,
+        query,
+        `LIMIT ${PAGE_LIMIT}`,
+        `OFFSET ${(searchParam.page - 1) * PAGE_LIMIT}`,
+      ].join(' '),
+    );
+    const countResult = await this.dataSource.query(
+      ['SELECT count(*) as count_record', query].join(' '),
+    );
+    return {
+      rows: rowResults,
+      rowCount: countResult[0].count_record,
+      totalPages: Math.ceil(countResult[0].count_record / PAGE_LIMIT),
+    };
   }
 
   async getTableSchema(tableName: string) {

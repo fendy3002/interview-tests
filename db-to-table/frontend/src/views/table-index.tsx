@@ -8,6 +8,7 @@ export const TableIndexPageObserver = observer<{
   tableIndexStore: TableIndexStore;
 }>(({ tableIndexStore }) => {
   useEffect(() => {
+    document.title = 'Table data';
     tableIndexStore.initialize();
     return () => {
       tableIndexStore.destroy();
@@ -23,6 +24,13 @@ export const TableIndexPageObserver = observer<{
           <TableData
             tableColumns={tableIndexStore.state.tableColumns}
             tableData={tableIndexStore.state.tableData}
+            countRecord={tableIndexStore.state.countRecord}
+            totalPages={tableIndexStore.state.totalPages}
+            currentPage={tableIndexStore.currentPage()}
+            linkToPage={(page) =>
+              `/table/${tableIndexStore.tableName()}/page/${page}`
+            }
+            onChangePage={tableIndexStore.changePage}
           ></TableData>
         </div>
       </div>

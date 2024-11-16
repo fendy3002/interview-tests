@@ -8,7 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider
+  SidebarProvider,
 } from "../../components/ui/sidebar";
 
 export const TableList = observer((props: { tableNames: string[] }) => {
@@ -21,7 +21,9 @@ export const TableList = observer((props: { tableNames: string[] }) => {
             {props.tableNames.map((tableName, index) => (
               <SidebarMenuItem key={index}>
                 <SidebarMenuButton asChild>
-                  <a href={'/table/' + tableName}>
+                  {/* this can be improved to have the url generated from store */}
+                  {/* though I'll leave it as this for now */}
+                  <a href={"/table/" + tableName + "/page/1"}>
                     <span>{tableName}</span>
                   </a>
                 </SidebarMenuButton>
