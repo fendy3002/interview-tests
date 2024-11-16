@@ -11,7 +11,7 @@ import {
   SidebarProvider,
 } from "../../components/ui/sidebar";
 
-export const TableList = observer((props: { tableNames: string[] }) => {
+export const TableList = observer((props: { tableNames: string[], uploadModal: JSX.Element }) => {
   return (
     <SidebarProvider>
       <Sidebar>
@@ -32,7 +32,7 @@ export const TableList = observer((props: { tableNames: string[] }) => {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-          <Button>+ Create Table</Button>
+          {props.uploadModal}
         </SidebarFooter>
       </Sidebar>
     </SidebarProvider>

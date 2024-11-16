@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { TableIndexStore } from "../store/table-index.store";
 import { TableData } from "./table-index/table-data";
 import { TableList } from "./table-index/table-list";
+import { TableUploadModal } from "./table-upload-modal/table-upload-modal";
 
 export const TableIndexPageObserver = observer<{
   tableIndexStore: TableIndexStore;
 }>(({ tableIndexStore }) => {
   useEffect(() => {
-    document.title = 'Table data';
+    document.title = "Table data";
     tableIndexStore.initialize();
     return () => {
       tableIndexStore.destroy();
@@ -18,7 +19,17 @@ export const TableIndexPageObserver = observer<{
     <>
       <div className="grid grid-cols-[20%_80%] w-full">
         <div>
-          <TableList tableNames={tableIndexStore.state.tableNames}></TableList>
+          <TableList
+            tableNames={tableIndexStore.state.tableNames}
+            uploadModal={
+              <TableUploadModal
+                onClose={() => tableIndexStore.initialize()}
+                onViewTable={(tableName) =>
+                  (window.location.href = `/table/${tableName}/page/1`)
+                }
+              />
+            }
+          ></TableList>
         </div>
         <div>
           <TableData
