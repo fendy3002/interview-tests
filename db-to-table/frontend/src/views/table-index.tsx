@@ -4,13 +4,16 @@ import { TableIndexStore } from "../store/table-index.store";
 import { TableData } from "./table-index/table-data";
 import { TableList } from "./table-index/table-list";
 import { TableUploadModal } from "./table-upload-modal/table-upload-modal";
+import { uiCatch } from "@/lib/ui-catch";
 
 export const TableIndexPageObserver = observer<{
   tableIndexStore: TableIndexStore;
 }>(({ tableIndexStore }) => {
   useEffect(() => {
     document.title = "Table data";
-    tableIndexStore.initialize();
+    uiCatch(async () => {
+      await tableIndexStore.initialize();
+    }, 'TableIndexPageObserver');
     return () => {
       tableIndexStore.destroy();
     };

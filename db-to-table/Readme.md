@@ -13,6 +13,7 @@ Running backend:
 cd backend;
 cp .env.example .env;
 docker compose up -d;
+npm run migration:run;
 npm run start;
 ```
 

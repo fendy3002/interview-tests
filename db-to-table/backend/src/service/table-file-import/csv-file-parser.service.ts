@@ -71,7 +71,7 @@ export class CsvFileParserService {
     });
     return {
       rows: parsedCsvRows,
-      headers: Object.keys(parsedCsvRows[0]),
+      headers: Object.keys(parsedCsvRows[0] ?? {}),
     };
   }
 }

@@ -11,7 +11,7 @@ import { CsvFileParserService } from './csv-file-parser.service';
 import { errorToString } from 'src/tool/error-log.tool';
 
 // can be adjusted to match
-const POPULATE_BATCH_SIZE = 10000;
+const POPULATE_BATCH_SIZE = 5000;
 
 @Injectable()
 export class TableDataPopulateService {

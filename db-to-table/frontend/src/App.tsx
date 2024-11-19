@@ -2,6 +2,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import "./App.css";
 import { TableIndexPage } from "./views/table-index";
+import { ErrorBoundary } from "./views/error-boundary";
+import { Toaster } from "./components/ui/toaster";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +17,14 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ErrorBoundary>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
+      <Toaster />
+    </>
+  );
 }
 
 export default App;
