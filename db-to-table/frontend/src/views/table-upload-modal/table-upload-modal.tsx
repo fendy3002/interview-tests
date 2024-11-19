@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { DialogHeader } from "@/components/ui/dialog";
+import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { TableUploadModalStore } from "@/store/table-upload-modal.store";
 
 import {
@@ -20,6 +20,7 @@ import {
   AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
+import { uiCatch } from "@/lib/ui-catch";
 
 export const TableUploadModalObserver = observer<{
   store: TableUploadModalStore;
@@ -44,8 +45,21 @@ export const TableUploadModalObserver = observer<{
               {!store.state.uploadedFile && (
                 <>
                   <div className="flex py-4">
-                    <UploadZone onDrop={store.uploadFile} />
+                    <UploadZone
+                      onDrop={(acceptedFiles: File[]) =>
+                        uiCatch(async () => store.uploadFile(acceptedFiles), "")
+                      }
+                    />
                   </div>
+
+                  <DialogFooter>
+                    <Button
+                      onClick={() => store.closeDialog()}
+                      variant="secondary"
+                    >
+                      Cancel
+                    </Button>
+                  </DialogFooter>
                 </>
               )}
               {store.state.job && (

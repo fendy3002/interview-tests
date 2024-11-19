@@ -48,24 +48,31 @@ export class TableUploadModalStore {
       const form = new FormData();
       form.append("file", acceptedFiles[0]);
 
-      const createdJob = (
-        await axios.post(
-          this.env.VITE_API_HOST + "/api/table/import/csv",
-          form,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-      ).data;
-      runInAction(() => {
-        this.state.job = {
-          id: createdJob.jobId,
-          status: "PENDING",
-        };
-      });
-      this.poolJob();
+      try {
+        const createdJob = (
+          await axios.post(
+            this.env.VITE_API_HOST + "/api/table/import/csv",
+            form,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+        ).data;
+        runInAction(() => {
+          this.state.job = {
+            id: createdJob.jobId,
+            status: "PENDING",
+          };
+        });
+        this.poolJob();
+      } catch (ex) {
+        runInAction(() => {
+          this.state.uploadedFile = undefined;
+        });
+        throw ex;
+      }
     }
   }
 
